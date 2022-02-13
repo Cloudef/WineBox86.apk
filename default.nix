@@ -134,9 +134,9 @@ let
     '';
     dontConfigure = true;
     buildPhase = ''
-      mkdir /build/.android
-      export GRADLE_USER_HOME=$(mktemp -d)
-      (cd dlls/wineandroid.drv && gradle --no-daemon -Psrcdir=/build/source assembleDebug)
+      export GRADLE_USER_HOME="$(mktemp -d)"
+      srcdir="$PWD"
+      (cd dlls/wineandroid.drv && gradle --no-daemon -Psrcdir="$srcdir" assembleDebug)
     '';
     installPhase = ''
       find $GRADLE_USER_HOME/caches/modules-2 -type f -regex '.*\.\(jar\|pom\)' \
@@ -220,7 +220,8 @@ let
       cp --no-preserve=all -r ${androidWineAssets} dlls/wineandroid.drv/assets
 
       # Build APK with gradle
-      (cd dlls/wineandroid.drv && gradle --no-daemon -Psrcdir=/build/source assembleDebug)
+      srcdir="$PWD"
+      (cd dlls/wineandroid.drv && gradle --no-daemon -Psrcdir="$srcdir" assembleDebug)
     '';
     installPhase = ''
       mkdir $out
