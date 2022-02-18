@@ -18,7 +18,7 @@ jobs:
            with:
               name: winebox86-apk
               authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-         - run: nix-build
+         - run: nix-build -A wine-i686
          - uses: actions/upload-artifact@v2
            with:
               name: apks
